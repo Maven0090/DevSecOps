@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Cloning Git') {
             steps {
-                   git branch: 'main', url: 'https://github.com/Maven0090/DevSecOps.git'
+                git branch: 'main', url: 'https://github.com/Maven0090/DevSecOps.git'
             }
         }
         stage('Building Docker Image') {
@@ -23,7 +23,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 script {
-                    sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${registry}'
+                    bat "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${registry}"
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
         }
         stage('Clean up') {
             steps {
-                sh "docker rmi ${registry}"
+                bat "docker rmi ${registry}"
             }
         }
     }
